@@ -49,6 +49,9 @@ View our full FAQ at http://www.ecreativeim.com/trackable-social-share-icons-faq
 
 == Changelog ==
 
+= 0.6 =
+* Image Fix
+
 = 0.5 =
 * Public Release
 

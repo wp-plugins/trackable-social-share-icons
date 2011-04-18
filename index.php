@@ -3,7 +3,7 @@
 	Plugin Name: Trackable Social Share Icons
 	Plugin URI: http://www.ecreativeim.com/trackable-social-share-icons
 	Description: The Trackable Social Share Icons plugin enables blog readers to easily share posts via social media networks, including Facebook and Twitter. All share clicks are automatically tracked in your Google Analytics.
-	Version: 0.5
+	Version: 0.6
 	Author: Name: Ecreative Internet Marketing
 	Author URI: http://www.ecreativeim.com/
 	License: MIT
@@ -13,7 +13,7 @@
     if(!defined('WP_PLUGIN_DIR')) { die('This WordPress plugin is not supported with your system.'); }
 	
 	// Define Version
-	define('TRACKABLESHARE_VERSION','0.5');
+	define('TRACKABLESHARE_VERSION','0.6');
 	
 	// Activate Hooks
 	register_activation_hook( __FILE__, '_trackableshare_activate' );
