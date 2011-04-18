@@ -42,7 +42,9 @@ View our full FAQ at http://www.ecreativeim.com/trackable-social-share-icons-faq
 
 == Screenshots ==
 
-Visit http://www.ecreativeim.com/trackable-social-share-icons for screenshots
+1. Example of Share Icons (12 sets to choose from)
+2. Events are tracked in Google Analytics (setup separately)
+3. Easy to use admin allows you to customize most aspects of the share buttons
 
 
 == Changelog ==
