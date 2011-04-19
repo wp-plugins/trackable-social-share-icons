@@ -3,7 +3,7 @@
 	Plugin Name: Trackable Social Share Icons
 	Plugin URI: http://www.ecreativeim.com/trackable-social-share-icons
 	Description: The Trackable Social Share Icons plugin enables blog readers to easily share posts via social media networks, including Facebook and Twitter. All share clicks are automatically tracked in your Google Analytics.
-	Version: 0.6
+	Version: 0.7
 	Author: Name: Ecreative Internet Marketing
 	Author URI: http://www.ecreativeim.com/
 	License: MIT
@@ -13,7 +13,7 @@
     if(!defined('WP_PLUGIN_DIR')) { die('This WordPress plugin is not supported with your system.'); }
 	
 	// Define Version
-	define('TRACKABLESHARE_VERSION','0.6');
+	define('TRACKABLESHARE_VERSION','0.7');
 	
 	// Activate Hooks
 	register_activation_hook( __FILE__, '_trackableshare_activate' );
@@ -111,13 +111,13 @@
 				$content .= '"';
 			}
 
-			$content .= '><img align="absmiddle" src="'.WP_CONTENT_URL.'/plugins/trackable-share/buttons/'.$button_dir.'/'.$button.'" alt="'.ucfirst(substr($button,0,-4)).'"';
+			$content .= '><img align="absmiddle" src="'.WP_CONTENT_URL.'/plugins/trackable-social-share-icons/buttons/'.$button_dir.'/'.$button.'" alt="'.ucfirst(substr($button,0,-4)).'"';
 			
 			if(preg_match('/[0-9]+x[0-9]+/i',$size)) {
 				list($width,$height) = explode('x',strtolower($size));
 				$content .= ' width="'.$width.'" height="'.$height.'"';
 			} elseif(preg_match('/[0-9]+\%/',$size)) {
-					list($width,$height) = @getimagesize(WP_CONTENT_DIR.'/plugins/trackable-share/buttons/'.$button_dir.'/'.$button);
+					list($width,$height) = @getimagesize(WP_CONTENT_DIR.'/plugins/trackable-social-share-icons/buttons/'.$button_dir.'/'.$button);
 					if($height > 36) {
 						$width = $width * 36 / $height; $height = 36;
 					}
@@ -126,7 +126,7 @@
 					$width = $width * $per;
 					$content .= ' width="'.$width.'" height="'.$height.'"';
 			} else {
-				list($width,$height) = @getimagesize(WP_CONTENT_DIR.'/plugins/trackable-share/buttons/'.$button_dir.'/'.$button);
+				list($width,$height) = @getimagesize(WP_CONTENT_DIR.'/plugins/trackable-social-share-icons/buttons/'.$button_dir.'/'.$button);
 				if($height > 36) { $content .= ' height="36"'; }
 			}
 			
@@ -165,9 +165,9 @@
 			$analytic_error = get_option('_trackablesharebuttons_code_check');
 		}
 		
-		echo '<div style="background: url('.WP_CONTENT_URL.'/plugins/trackable-share/images/left.jpg) repeat-y #fff;">';
-		echo '<div style="margin-bottom: 10px; width: 100%; height: 115px; background: url('.WP_CONTENT_URL.'/plugins/trackable-share/images/bg.jpg);">';
-		echo '<a href="http://www.ecreativeim.com/blog" target="_blank"><img src="'.WP_CONTENT_URL.'/plugins/trackable-share/images/logo.jpg" /></a>';
+		echo '<div style="background: url('.WP_CONTENT_URL.'/plugins/trackable-social-share-icons/images/left.jpg) repeat-y #fff;">';
+		echo '<div style="margin-bottom: 10px; width: 100%; height: 115px; background: url('.WP_CONTENT_URL.'/plugins/trackable-social-share-icons/images/bg.jpg);">';
+		echo '<a href="http://www.ecreativeim.com/blog" target="_blank"><img src="'.WP_CONTENT_URL.'/plugins/trackable-social-share-icons/images/logo.jpg" /></a>';
 		echo '<h2 style="float: right; font-style: italic; color: #56959E; margin: 60px 5% 0 0;">Trackable <span style="color: #2E5282;">Sharing</span></h2>';
 		echo '<div style="clear: right; float: right; margin-right: 10%; color: #333; font-size: 12px;">version '.TRACKABLESHARE_VERSION.'</div>';
 		echo '</div>';
@@ -189,10 +189,10 @@
 		echo '<tr><td valign="top" colspan="2"><h3>Button Style:</h3>';
 		echo '<em>Note: not all button styles have all share buttons</em><br /><br />';
 		$files = array();
-		$files = scandir(WP_CONTENT_DIR.'/plugins/trackable-share/buttons/');
+		$files = scandir(WP_CONTENT_DIR.'/plugins/trackable-social-share-icons/buttons/');
 		natsort($files);
 		foreach($files as $file) {
-			if(substr($file,0,1) != '.' && substr($file,0,1) != '_' && is_dir('../wp-content/plugins/trackable-share/buttons/'.$file)) {
+			if(substr($file,0,1) != '.' && substr($file,0,1) != '_' && is_dir('../wp-content/plugins/trackable-social-share-icons/buttons/'.$file)) {
 				echo '<input type="radio" name="type" value="'.$file.'" '.($file == get_option('_trackablesharebutton_type')?'checked':'').' /> &nbsp; ';
 
 				foreach(explode(',',get_option('_trackablesharebuttons')) as $button_prev) {
@@ -202,7 +202,7 @@
 						list($width,$height) = explode('x',strtolower(get_option('_trackablesharebutton_size')));
 						$height = ' width="'.$width.'" height="'.$height.'"';
 					} elseif(preg_match('/[0-9]+\%/',get_option('_trackablesharebutton_size'))) {
-						list($width,$height) = @getimagesize('../wp-content/plugins/trackable-share/buttons/'.$file.'/'.$button_prev);
+						list($width,$height) = @getimagesize('../wp-content/plugins/trackable-social-share-icons/buttons/'.$file.'/'.$button_prev);
 						if($height > 36) {
 							$width = $width * 36 / $height; $height = 36;
 						}
@@ -211,11 +211,11 @@
 						$width = $width * $per;
 						$height = ' width="'.$width.'" height="'.$height.'"';
 					} else {
-						list($width,$height) = @getimagesize('../wp-content/plugins/trackable-share/buttons/'.$file.'/'.$button_prev);
+						list($width,$height) = @getimagesize('../wp-content/plugins/trackable-social-share-icons/buttons/'.$file.'/'.$button_prev);
 						if($height > 36) { $height = ' height="36"'; } else { $height = ''; }
 					}
 					
-					echo '<img src="'.WP_CONTENT_URL.'/plugins/trackable-share/buttons/'.$file.'/'.$button_prev.'"'.$height.' align="absmiddle" /> ';
+					echo '<img src="'.WP_CONTENT_URL.'/plugins/trackable-social-share-icons/buttons/'.$file.'/'.$button_prev.'"'.$height.' align="absmiddle" /> ';
 					
 				}
 				
@@ -224,7 +224,7 @@
 		}
 
 		echo '<h4>Add text after button?</h4>Do you want your icons to look like this: &nbsp;';
-		echo '<a href="javascript:void(0);" style="text-decoration: none;"><img src="../wp-content/plugins/trackable-share/buttons/1/facebook.png" height="20" align="absmiddle" /> facebook</a><br />';
+		echo '<a href="javascript:void(0);" style="text-decoration: none;"><img src="../wp-content/plugins/trackable-social-share-icons/buttons/1/facebook.png" height="20" align="absmiddle" /> facebook</a><br />';
 		echo '<input type="radio" name="text" value="1" '.(1 == get_option('_trackablesharebutton_text')?'checked':'').' /> Yes &nbsp; <input type="radio" name="text" value="0" '.(0 == get_option('_trackablesharebutton_text')?'checked':'').' /> No';
 		echo '<br /><br />';
 		echo '</td></tr>';

@@ -49,6 +49,9 @@ View our full FAQ at http://www.ecreativeim.com/trackable-social-share-icons-faq
 
 == Changelog ==
 
+= 0.7 =
+* Path Fix - fixes broken images in front end and back end
+
 = 0.6 =
 * Image Fix - in the .5 release some downloads may not have contained the images.  The updated version fixes this issue.
 
