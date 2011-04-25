@@ -49,6 +49,16 @@ View our full FAQ at http://www.ecreativeim.com/trackable-social-share-icons-faq
 
 == Changelog ==
 
+= 0.8 =
+* Added ability to display icons on top, bottom, or both
+* Added ability to choose whether to display on posts, pages, both, or neither
+* Added CSS block to further customize the look and feel of the icons and how they display on the page
+* Noscript Support - windows will still popup if JavaScript is not supported or if there is a Javascript error (eg. enabling Google Analytic Tracking without the latest code)
+* Updated path to work if `trackable-social-share-icons` folder name is changed
+* Updated path to work if `wp-content` or `plugins` folder names are changed in WordPress
+* Added LinkedIn, Tumblr, Posterous, and Email icons to the `Location` set
+* Added LinkedIn, Tumblr, Posterous, and Email icons to the `Handy Icons` set
+
 = 0.7 =
 * Path Fix - fixes broken images in front end and back end
 
