@@ -1,5 +1,5 @@
 ﻿=== Trackable Social Share Icons ===
-Contributors: ecreativeim, mikestowe
+Contributors: EcreativeIM, mikestowe
 Tags: social media, sharing, trackable, google analytics, facebook, twitter
 Requires at least: 2.9
 Tested up to: 3.1.1
