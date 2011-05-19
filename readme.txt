@@ -18,7 +18,7 @@ All clicks on the social icons are automatically tracked in your Google Analytic
 
 == Customization Options ==
 
-Trackable Social Share Icons lets you select which social media icons appear (including Facebook, Twitter, LinkedIn, Digg, Reddit, StumbleUpon, Tumblr, Posterous, and Email), choose from a dozen different icon appearances, customize the size of the icons, whether or not to use text along side the icons, and lets you turn the Google Analytics tracking on and off.
+Trackable Social Share Icons lets you select which social media icons appear (including Facebook, Twitter, LinkedIn, Digg, Reddit, StumbleUpon, Tumblr, Posterous, and Email), choose from a dozen different icon appearances - or upload your own, customize the size of the icons, whether or not to use text along side the icons, and lets you turn the Google Analytics tracking on and off.
 
 
 == Tracking ==
@@ -48,6 +48,16 @@ View our full FAQ at http://www.ecreativeim.com/trackable-social-share-icons-faq
 
 
 == Changelog ==
+
+= 0.9 =
+* Added delicous
+* Added snail mail
+* Added Trackable Social Share Icons widget
+* Added `[trackable_share]` tag for greater post/page control
+* Added call function `_trackableshare_embed()` for use in templates
+* Added ability to upload custom button images
+* Added ability to add custom share links (advanced)
+* Fixed link bug on image pages
 
 = 0.8 =
 * Added ability to display icons on top, bottom, or both
