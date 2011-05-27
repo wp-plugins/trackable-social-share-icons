@@ -1,6 +1,6 @@
 ﻿=== Trackable Social Share Icons ===
 Contributors: EcreativeIM, mikestowe
-Tags: social media, sharing, trackable, google analytics, facebook, twitter
+Tags: social media, sharing, trackable, google analytics, facebook, twitter, social, social bookmarking, email, reddit, del.icio.us, digg, stats, statistics, share, sharing, tracking, analytics, snail mail
 Requires at least: 2.9
 Tested up to: 3.1.1
 
@@ -14,6 +14,14 @@ Increase the reach of your blog with social network sharing, and track the numbe
 Trackable Social Share Icons plugin is a simple, intuitive, and customizable plugin that places social media icons, such as Twitter and Facebook, at the bottom of Wordpress posts and pages. Users can click on the icon to share the blog post over social networks without ever leaving the page.
 
 All clicks on the social icons are automatically tracked in your Google Analytics, under Event Tracking. Tracking data is not shared with us or any 3rd party – only someone with access to your Google Analytics will see it in any form.
+
+= Key Features =
+* Integrates with Google Analytics
+* Choose where and how icons display
+* 12 sets to choose from, or upload your own
+* Trackable Facebook "Like" button
+* Add custom button links to other services
+* Built in CSS editor for even more customization
 
 
 == Customization Options ==
@@ -42,12 +50,23 @@ View our full FAQ at http://www.ecreativeim.com/trackable-social-share-icons-faq
 
 == Screenshots ==
 
-1. Example of Share Icons (12 sets to choose from)
-2. Events are tracked in Google Analytics (setup separately)
-3. Easy to use admin allows you to customize most aspects of the share buttons
+1. Example configurations of Share Icons and Options
+2. Decide what buttons to display, how to display them, and where to display them
+3. Choose from 12 different icon sets or create your own
+4. Add text before and after buttons, add the Facebook Like button, manage Google Analytic tracking, and more
+5. Hide buttons from individual posts and pages that you don't want to be shared
 
 
 == Changelog ==
+
+= 1.0 =
+* Added ability to hide buttons on Home Page
+* Added ability to hide buttons on Category/Archive Pages
+* Added ability to hide buttons on individual posts and pages
+* Added ability to add text before the buttons (eg: Share this)
+* Added trackable Facebook "like" button with optional "faces" and "send"
+* Fixed window focus issue
+* Enhanced Snail Mail window
 
 = 0.9 =
 * Added delicous
