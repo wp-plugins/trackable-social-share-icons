@@ -1,9 +1,9 @@
-<?php
+<?php 
 	/*
 	Plugin Name: Trackable Social Share Icons
 	Plugin URI: http://www.ecreativeim.com/trackable-social-share-icons
 	Description: The Trackable Social Share Icons plugin enables blog readers to easily share posts via social media networks, including Facebook and Twitter. All share clicks are automatically tracked in your Google Analytics.
-	Version: 1.0
+	Version: 1.1
 	Author: Name: Ecreative Internet Marketing
 	Author URI: http://www.ecreativeim.com/
 	License: MIT
@@ -13,7 +13,7 @@
     if(!defined('WP_PLUGIN_DIR')) { die('This WordPress plugin is not supported by your system.'); }
 
 	// Define Version
-	define('TRACKABLESHARE_VERSION','1.0');
+	define('TRACKABLESHARE_VERSION','1.1');
 	define('TRACKABLESHARE_DIRNAME',basename(dirname(__FILE__)));
 	define('TRACKABLESHARE_PLUGINS',basename(WP_CONTENT_DIR).'/'.basename(WP_PLUGIN_DIR));
 
@@ -60,6 +60,10 @@
 		// Code Check Cache
 		add_option('_trackablesharebuttons_code_check',false);
 		add_option('_trackablesharebuttons_code_check_time','0');
+		add_option('_trackablesharebutton_gplus', 'none');
+		add_option('_trackablesharebutton_gplus_annotate', 'none');
+		add_option('_trackablesharebutton_textColor', '');
+		add_option('_trackablesharebutton_linkColor', '');
 	}
 
 
@@ -127,22 +131,20 @@
 		}
 	}
 
-
 	// Add direct tag embed
 	function _trackableshare_tag($content) {
 		return str_replace('[trackable_share]',_trackableshare_process('',true),$content);
 	}
-
 
 	// Process Excerpts if enabled
 	function _trackableshare_process_excerpt($content) {
 		return _trackableshare_process($content,true);
 	}
 
-
 	// Build Buttons
 	function _trackableshare_process($content, $excerpt = false, $page_url = false, $page_title = false) {
 		static $fbjs = false;
+		static $gplusjs = false;
 		global $post;
 		//echo $post->ID.'<hr />';
 		//echo $post->post_type;
@@ -183,7 +185,8 @@
 		'snailmail.png' => array('url'=>'http://www.ecreativeim.com/snailmail.php','popup'=>'310x310'), // not enabled yet
 		'stumbleupon.png' => array('url'=>'http://www.stumbleupon.com/submit?url=%url%&title=%url%', 'popup'=>'750x450'),
 		'tumblr.png' => array('url'=>'http://www.tumblr.com/login?s=&t=%title%&u=%url%&v=3&o=0', 'popup'=>'500x400'),
-		'twitter.png' => array('url'=>'http://twitter.com/share?url=%url%&text=%title%', 'popup'=>'500x350')
+		'twitter.png' => array('url'=>'http://twitter.com/share?url=%url%&text=%title%', 'popup'=>'500x350'),
+		//'plusone.png' => array('url'=>'', 'popup'=>'550x350') --this is for someday (hopefully soon) when Google adds a URI based sharing system.
 		);
 
 		$add_buttons = get_option('_trackablesharebutton_additionalbuttons');
@@ -219,7 +222,7 @@
 		}
 
 		$fburl = 'http://www.facebook.com/plugins/like.php?href='.urlencode($page_url).'&show_faces=false';
-		$fblike_code = '<div style="padding: 5px 0 5px 0;"><fb:like href="'.urlencode($page_url).'" send="'.get_option('_trackablesharebutton_fblike_send').'" width="450" show_faces="'.get_option('_trackablesharebutton_fblike_faces').'" font=""></fb:like></div>';
+		$fblike_code = '<div style="padding: 5px 0 0;"><fb:like href="'.urlencode($page_url).'" send="'.get_option('_trackablesharebutton_fblike_send').'" width="450" show_faces="'.get_option('_trackablesharebutton_fblike_faces').'" font=""></fb:like></div>';
 		$fblike_display = get_option('_trackablesharebutton_fblike');
 
 		if(($fblike_display == 'top' || $fblike_display == 'bottom') && !$fbjs) {
@@ -234,9 +237,24 @@
 
 			$fbjs = true;
 		}
+		
 
-		if($fblike_display == 'top') { $return .= $fblike_code.'<br />'; }
-
+		$gplus_code = '<g:plusone annotation="'.get_option("_trackablesharebutton_gplus_annotate").'"></g:plusone>';
+		$gplus_display = get_option('_trackablesharebutton_gplus');
+			
+		if(($gplus_display == 'top' || $gplus_display == 'bottom') && !$gplusjs) {
+			//echo '<g:plusone annotation="'.get_option("_trackablesharebutton_gplus_annotate").'"></g:plusone>';
+				echo '<script type="text/javascript">
+				  (function() {
+				    var po = document.createElement("script"); po.type = "text/javascript"; po.async = true;
+				    po.src = "https://apis.google.com/js/plusone.js";
+				    var s = document.getElementsByTagName("script")[0]; s.parentNode.insertBefore(po, s);
+				  })();
+				</script>';
+			
+			$gplusjs = true;
+		}
+		
 		foreach($buttons as $button) {
 
 			$button = strtolower(preg_replace('/[^a-z]/i','',$button)).'.png';
@@ -298,9 +316,11 @@
 		}
 
 		if($fblike_display == 'bottom') { $return .= '<br />'.$fblike_code; }
+		
+		if($gplus_display == 'bottom') { $return .= '<br />'.$gplus_code; }
 
 		$return .= '</div>';
-
+		
 		if(get_option('_trackablesharebutton_position') == 'both') {
 			return $return.$content.$return;
 		} elseif(get_option('_trackablesharebutton_position') == 'top') {
@@ -310,7 +330,6 @@
 		}
 
 	}
-
 
 	// Display Buttons
 	function _trackableshare_showbuttons($file) {
@@ -341,13 +360,12 @@
 		}
 	}
 
-
 	// Page Edit Admin
 	function _trackableshare_editpost($one,$two,$admin=false) {
 		$fbpos = get_option('_trackablesharebutton_fblike');
 		$fbfaces = get_option('_trackablesharebutton_fblike_faces');
 		$fbsend = get_option('_trackablesharebutton_fblike_send');
-		$fbexm = '<iframe name="_trackableshare_fblike" src="http://www.facebook.com/plugins/like.php?href='.urlencode('http://wordpress.org/extend/plugins/trackable-social-share-icons/').'&show_faces='.$fbfaces.'&send='.$fbsend.'" scrolling="no" frameborder="0" style="margin: 5px 0 5px 0; float: left; width:450px; height:'.('true' == $fbfaces?'8':'3').'0px;"></iframe>';
+		$fbexm = '<iframe name="_trackableshare_fblike" src="http://www.facebook.com/plugins/like.php?href='.urlencode('http://wordpress.org/extend/plugins/trackable-social-share-icons/').'&show_faces='.$fbfaces.'&send='.$fbsend.'" scrolling="no" frameborder="0" style="margin: 5px 0 0; float: left; width:450px; height:'.('true' == $fbfaces?'8':'3').'0px;"></iframe>';
 		echo '<style type="text/css">'.get_option('_trackablesharebutton_header').'</style>';
 		echo '<table>';
 		echo '<tr><td valign="top"><br /><strong>Preview: &nbsp; </strong></td><td>';
@@ -357,6 +375,18 @@
 		echo '</td></tr><tr><td></td><td><br /><input type="checkbox" name="_trackablesearch_hide" value="1" '.(get_option('_trackablesharebutton_postid_'.$_GET['post'].'_hide') == 1?'checked':'').' /> <em>Don\'t show icons on this page</em></td></tr></table>';
 	}
 
+	// Page Editing for Google Plus 
+	function _trackableshare_editpostPlus($one,$two,$admin=false) {
+		$gppos = get_option('_trackablesharebutton_gplus');
+		$gpannote = get_option('_trackablesharebutton_gplus_annotate');
+		$gpexm = '<span  style="margin: 5px 0 0; float: left; width:450px; height:32px;"><g:plusone annotation="'.$gpannote.'"></g:plusone></span>';
+		echo '<style type="text/css">'.get_option('_trackablesharebutton_header').'</style>';
+		echo '<table>';
+		echo '<tr><td valign="top"><br /><strong>Preview: &nbsp; </strong></td><td>';
+		if($gppos == 'top') { echo $gpexm.'<br />'; }
+		if($gppos == 'bottom') { echo '<br />'.$gpexm; }
+		echo '</td></tr><tr><td></td><td><br /><input type="checkbox" name="_trackablesearch_hide" value="1" '.(get_option('_trackablesharebutton_postid_'.$_GET['post'].'_hide') == 1?'checked':'').' /> <em>Don\'t show icons on this page</em></td></tr></table>';
+	}
 
 	// Page Edit Admin - SAVE
 	function _trackableshare_save_box_postdata($id) {
@@ -366,7 +396,6 @@
 			update_option('_trackablesharebutton_postid_'.$id.'_hide',0);
 		}
 	}
-
 
 	// Admin Panel
 	function _trackableshare_admin() {
@@ -392,6 +421,10 @@
 			//update_option('_trackablesharebutton_bitlykey', $_POST['bitlykey']);
 			update_option('_trackablesharebutton_header', $_POST['css']);
 			update_option('_trackablesharebutton_footer', $_POST['footer']);
+			update_option('_trackablesharebutton_gplus', $_POST['googleplus']);
+			update_option('_trackablesharebutton_gplus_annotate', $_POST['gplus_annotation']);
+			update_option('_trackablesharebutton_textColor', $_POST['textColor']);
+			update_option('_trackablesharebutton_linkColor', $_POST['linkcolor']);
 		}
 
 		list($uploadpath,) = _trackableshare_setpaths('custom',true);
@@ -454,7 +487,7 @@
 
 		echo '<br /><strong style="color: #56959E">Options include: facebook, twitter, linked in, digg, delicious, reddit, stumble upon, tumblr, posterous, email, snail mail'.$add_buttons_text.'</strong></td></tr>';
 		echo '<tr><td colspan="2">&nbsp;</td></tr>';
-
+		
 		echo '<td colspan="2"><h3>Display Buttons On:';
 		echo '</h3>
 		<input type="radio" name="position" value="both" '.('both' == get_option('_trackablesharebutton_position')?'checked':'').' /> Top and Bottom of  &nbsp; <input type="radio" name="position" value="top" '.('top' == get_option('_trackablesharebutton_position')?'checked':'').' /> Top of  &nbsp; <input type="radio" name="position" value="bottom" '.('top' != get_option('_trackablesharebutton_position') && 'both' != get_option('_trackablesharebutton_position')?'checked':'').' /> Bottom of<br />
@@ -506,35 +539,69 @@
 		echo '<h4>Facebook Like Button</h4>';
 
 		echo '<iframe name="_trackableshare_fblike" src="http://www.facebook.com/plugins/like.php?href='.urlencode('http://wordpress.org/extend/plugins/trackable-social-share-icons/').'&show_faces=false" scrolling="no" frameborder="0" style="float: left; width:385px; height:30px;"></iframe>';
-		echo '<select name="fblike">';
+		echo '<br /><br /><select name="fblike">';
 		echo '<option value="none" '.('none' == get_option('_trackablesharebutton_fblike')?'selected':'').'>Do Not Display</option>';
-		echo '<option value="top" '.('top' == get_option('_trackablesharebutton_fblike')?'selected':'').'>Show Above Social Share Buttons</option>';
+		//echo '<option value="top" '.('top' == get_option('_trackablesharebutton_fblike')?'selected':'').'>Show Above Social Share Buttons</option>';
 		echo '<option value="bottom" '.('bottom' == get_option('_trackablesharebutton_fblike')?'selected':'').'>Show Below Social Share Buttons</option>';
 		echo '</select><br style="clear: left;" />';
 		echo 'Show "Send" Button: <select name="fblike_send"><option value="true" '.('true' == get_option('_trackablesharebutton_fblike_send')?'selected':'').'>Yes</option><option value="false" '.('false' == get_option('_trackablesharebutton_fblike_send')?'selected':'').'>No</option></select>';
 		echo ' &nbsp; &nbsp; &nbsp; &nbsp; Show Faces: <select name="fblike_faces"><option value="true" '.('true' == get_option('_trackablesharebutton_fblike_faces')?'selected':'').'>Yes</option><option value="false" '.('false' == get_option('_trackablesharebutton_fblike_faces')?'selected':'').'>No</option></select>';
 		echo '<br /><br />';
 		//echo '<em>yepp, this gets tracked too - but it requires javascript</em><br /><br />';
-
 		echo '</td></tr>';
-		echo '<td colspan="2"><h3>Google Analytics';
+		
+		// Start Google Plus Buttons
+		echo '<tr><td>';
+		echo '<h4>Google Plus Button:</h4>';
+
+		echo '<g:plusone annotation="'.get_option("_trackablesharebutton_gplus_annotate").'"></g:plusone>';
+		echo '<script type="text/javascript">
+			  (function() {
+			    var po = document.createElement("script"); po.type = "text/javascript"; po.async = true;
+			    po.src = "https:\/\/apis.google.com\/js\/plusone.js";
+			    var s = document.getElementsByTagName("script")[0]; s.parentNode.insertBefore(po, s);
+			   })();
+			  </script>';
+		echo '<br /><br /><select name="googleplus">';
+		echo '<option value="none" '.('none' == get_option('_trackablesharebutton_gplus')?'selected':'').'>Do Not Display</option>';
+		//echo '<option value="top" '.('top' == get_option('_trackablesharebutton_gplus')?'selected':'').'>Show Above Social Share Buttons</option>';
+		echo '<option value="bottom" '.('bottom' == get_option('_trackablesharebutton_gplus')?'selected':'').'>Show Below Social Share Buttons</option>';
+		echo '</select><br style="clear: left;" />';
+		echo 'Show +1 Count: <select name="gplus_annotation"><option value="none" '.("none" == get_option("_trackablesharebutton_gplus_annotate")?"selected":"").'>None</option><option value="bubble" '.("bubble" == get_option("_trackablesharebutton_gplus_annotate")?"selected":"").'>Bubble</option><option value="inline" '.("inline" == get_option("_trackablesharebutton_gplus_annotate")?"selected":"").'>Inline</option></select>';
+		echo '<br /><br />';
+		echo '</td>';
+		// End Google Plus Buttons
+		
+		//Start Google Analytics
+		echo '<tr><td colspan="2"><h3>Google Analytics';
 		if($analytics_error) {
 			echo '<br /><span style="font-size: 12px; color: #900;">Unable to detect Google Analytics code.  Please make sure latest Analytics code has been installed or set to &quot;no&quot; to prevent javascript errors.</span>';
 		}
 		echo '</h3>
 		Do you want to track Social Media clicks with Google Analytics - requires latest, asynchronous code<br />
 		<input type="radio" name="google" value="1" '.(1 == get_option('_trackablesharebutton_google')?'checked':'').' /> Yes &nbsp; <input type="radio" name="google" value="0" '.(0 == get_option('_trackablesharebutton_google')?'checked':'').' /> No</td></tr>';
-		echo '<tr><td colspan="2">&nbsp;</td></tr>';
-		/*
-		echo '<tr><td colspan="2"><h3>bitly API (bit.ly)</h3>If you would like to use your own bit.ly account for tracking purposes<br /><br />';
-		echo 'bitly login: <input type="text" name="bitlylogin" size="30" value="'.get_option('_trackablesharebutton_bitlylogin').'" /> &nbsp; &nbsp; bitly API key: <input type="text" size="55" name="bitlykey" value="'.get_option('_trackablesharebutton_bitlykey').'" />';
+		//End Google Analytics		
+
+		// Start Show Support
+		echo '<tr><td colspan="2"><h3>Show Your Support</h3>Would you like to add a link to "Trackable Sharing" in your footer?<br /><input type="radio" name="footer" value="1" '.(1 == get_option('_trackablesharebutton_footer')?'checked':'').' /> Yes &nbsp; <input type="radio" name="footer" value="0" '.(0 == get_option('_trackablesharebutton_footer')?'checked':'').' /> No<br /><br /></td></tr>';
+		//End Show Support
+		
+		//Start Color Picker
+		echo '<tr><td>';
+		echo '<h3>Color of "Trackable Sharing" text and link in hexidecimal</h3>';
+		echo '<h4>ie: #333333</h4>';
+		echo '<fieldset>Text Color: <input type="text" name="textColor" value="'.get_option("_trackablesharebutton_textcolor").'">
+					<br />
+					Link Color: <input type="text" name="linkcolor" value="'.get_option("_trackablesharebutton_linkcolor").'">
+					<br />
+					<span>The default color of the theme\'s text/links is used if no color is chosen.</span>
+			  </fieldset>';
 		echo '</td></tr>';
 		echo '<tr><td colspan="2">&nbsp;</td></tr>';
-		*/
-
-		echo '<td colspan="2"><h3>Show Your Support</h3>Would you like to add a link to "Trackable Sharing" in your footer?<br /><input type="radio" name="footer" value="1" '.(1 == get_option('_trackablesharebutton_footer')?'checked':'').' /> Yes &nbsp; <input type="radio" name="footer" value="0" '.(0 == get_option('_trackablesharebutton_footer')?'checked':'').' /> No<br /><br />';
-
-		echo '<h3>Advanced (<a href="javascript:void(0);" onclick="if(document.getElementById(\'trackable_advanced\').style.display == \'none\') { document.getElementById(\'trackable_advanced\').style.display = \'block\'; } else { document.getElementById(\'trackable_advanced\').style.display = \'none\'; }">Show/Hide</a>)</h3>';
+		//End Color Picker
+		
+		//Start Advanced
+		echo '<tr><td><h3>Advanced (<a href="javascript:void(0);" onclick="if(document.getElementById(\'trackable_advanced\').style.display == \'none\') { document.getElementById(\'trackable_advanced\').style.display = \'block\'; } else { document.getElementById(\'trackable_advanced\').style.display = \'none\'; }">Show/Hide</a>)</h3>';
 		echo '<div style="background: #ffc; border: 1px solid #ccc; padding: 10px; display: none;" id="trackable_advanced">';
 		echo '<strong>Button CSS:</strong><br /><textarea style="width: 60%;" name="css">'.get_option('_trackablesharebutton_header').'</textarea><br /><tt style="color: #666;">.trackable_sharing { margin-bottom: 10px; } .trackable_sharing a { border: 1px solid #333; }</tt><br /><br />';
 		echo '<br /><strong>Additional Buttons:</strong> (requires use of custom button images)<br /><textarea style="width: 60%;" name="additional">'.$add_buttons.'</textarea><br /><tt>Button Name | Url (use %url% and %title% for post attributes) | Pop-up Size (W x H in pixels or false)</tt><tt style="color: #666;"><br />buttonname.png|http://samplesite.com?url=%url%&title=%title|400x250<br />buttonname2.png|javascript:alert(\'hello world\');|false</tt><br /><em>note: buttons cannot share images</em><br /><br />';
@@ -545,10 +612,11 @@
 		echo 'Please remember <a href="http://www.ecreativeim.com" target="_blank">Ecreative Internet Marketing</a> for your web design and SEO needs.</td></tr>';
 		echo '</table>';
 		echo '<br /><br /><br /><input type="reset" value="CANCEL" style="padding: 10px; font-size: 14px; background: #900; color: #fff;" /> &nbsp; <input type="submit" value="SAVE CHANGES" style="padding: 10px; font-size: 14px; background: green; color: #fff;" /><br /><br /><br /><br /><br />';
+		echo '</td></tr>';
 		echo '</form>';
 		echo '</div>';
 	}
-
+		//End Advanced 
 
 	// Header CSS
 	function _trackableshare_header() {
@@ -556,16 +624,13 @@
 			echo '<style type="text/css">'.get_option('_trackablesharebutton_header').'</style>';
 		}
 	}
-
-
+	
 	// Footer
 	function _trackableshare_footer() {
 		if(get_option('_trackablesharebutton_footer') == '1') {
-			echo '<div id="trackable_credits" style="text-align: center;">Social links powered by <a href="http://www.ecreativeim.com/trackable-social-share-icons" target="_blank">Trackable Sharing</a></div>';
+			echo '<div id="trackable_credits" style="text-align: center; color: '.get_option("_trackablesharebutton_textcolor").';">Social links powered by <a href="http://www.ecreativeim.com/trackable-social-share-icons" target="_blank" style="color:'.get_option("_trackablesharebutton_linkcolor").';">Trackable Sharing</a></div>';
+		echo $textColor;
 		}
 	}
-
-
-	// Developed by Michael Stowe, last updated May 27, 2011
-
+	// Developed by Michael Stowe, (updated by Zeb Anderson)
 ?>

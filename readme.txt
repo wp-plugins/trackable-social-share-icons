@@ -1,8 +1,8 @@
 ﻿=== Trackable Social Share Icons ===
 Contributors: EcreativeIM, mikestowe
-Tags: social media, sharing, trackable, google analytics, facebook, twitter, social, social bookmarking, email, reddit, del.icio.us, digg, stats, statistics, share, sharing, tracking, analytics, snail mail
+Tags: social media, sharing, trackable, google analytics, facebook, twitter, social, social bookmarking, email, reddit, del.icio.us, digg, stats, statistics, share, sharing, tracking, analytics, snail mail, google plus
 Requires at least: 2.9
-Tested up to: 3.1.1
+Tested up to: 3.2.1
 
 The Trackable Social Share Icons plugin enables blog readers to easily share posts via social media networks, including Facebook and Twitter. All share clicks are automatically tracked in your Google Analytics.
 
@@ -59,6 +59,10 @@ View our full FAQ at http://www.ecreativeim.com/trackable-social-share-icons-faq
 
 == Changelog ==
 
+= 1.1 =
+* Added Google +1 buttons with ability to either have baloon, inline, or no annotations
+* Added ability to change Show Support text and link color
+
 = 1.0 =
 * Added ability to hide buttons on Home Page
 * Added ability to hide buttons on Category/Archive Pages
@@ -110,3 +114,9 @@ Tracking only works with the newer, asynchronous analytics code (though the rest
 See our FAQ for more info.
 
 Trackable Social Share Icons data appears in Google Analytics under the Content > Event Tracking section. See Screenshots for more.
+
+== Known Issues ==
+
+There is an issue where images images do not display properly in IIS while using HTTPS.
+
+Currently Google does not offer a manner in which to share URIs with custom buttons or links. As of 9-6-11 they only offer their Javascript +1 button solution. When they update this with the ability to share websites through custom links we will update the plugin with buttons that match the sets of other buttons.
