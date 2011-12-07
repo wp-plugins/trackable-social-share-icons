@@ -59,8 +59,12 @@ View our full FAQ at http://www.ecreativeim.com/trackable-social-share-icons-faq
 
 == Changelog ==
 
+= 1.2 =
+* Added security fix regarding permissions
+* Minor text fixes
+
 = 1.1 =
-* Added Google +1 buttons with ability to either have baloon, inline, or no annotations
+* Added Google +1 buttons with ability to either have balloon, inline, or no annotations
 * Added ability to change Show Support text and link color
 
 = 1.0 =

@@ -3,7 +3,7 @@
 	Plugin Name: Trackable Social Share Icons
 	Plugin URI: http://www.ecreativeim.com/trackable-social-share-icons
 	Description: The Trackable Social Share Icons plugin enables blog readers to easily share posts via social media networks, including Facebook and Twitter. All share clicks are automatically tracked in your Google Analytics.
-	Version: 1.1
+	Version: 1.2
 	Author: Name: Ecreative Internet Marketing
 	Author URI: http://www.ecreativeim.com/
 	License: MIT
@@ -13,7 +13,7 @@
     if(!defined('WP_PLUGIN_DIR')) { die('This WordPress plugin is not supported by your system.'); }
 
 	// Define Version
-	define('TRACKABLESHARE_VERSION','1.1');
+	define('TRACKABLESHARE_VERSION','1.2');
 	define('TRACKABLESHARE_DIRNAME',basename(dirname(__FILE__)));
 	define('TRACKABLESHARE_PLUGINS',basename(WP_CONTENT_DIR).'/'.basename(WP_PLUGIN_DIR));
 
@@ -56,7 +56,7 @@
 		//add_option('_trackablesharebutton_bitlylogin', '');
 		//add_option('_trackablesharebutton_bitlykey', '');
 		add_option('_trackablesharebutton_header', '');
-		add_option('_trackablesharebutton_footer', '0');
+		add_option('_trackablesharebutton_footer', '1');
 		// Code Check Cache
 		add_option('_trackablesharebuttons_code_check',false);
 		add_option('_trackablesharebuttons_code_check_time','0');
@@ -87,7 +87,7 @@
 	// Menu Function
 	function _trackableshare_menu() {
 		if(function_exists('add_submenu_page')) {
-			add_submenu_page('plugins.php','Trackable Sharing', 'Trackable Sharing', 1, 'trackable_sharing', '_trackableshare_admin');
+			add_submenu_page('plugins.php','Trackable Sharing', 'Trackable Sharing', 10, 'trackable_sharing', '_trackableshare_admin');
 		}
 	}
 
@@ -628,7 +628,7 @@
 	// Footer
 	function _trackableshare_footer() {
 		if(get_option('_trackablesharebutton_footer') == '1') {
-			echo '<div id="trackable_credits" style="text-align: center; color: '.get_option("_trackablesharebutton_textcolor").';">Social links powered by <a href="http://www.ecreativeim.com/trackable-social-share-icons" target="_blank" style="color:'.get_option("_trackablesharebutton_linkcolor").';">Trackable Sharing</a></div>';
+			echo '<div id="trackable_credits" style="text-align: center; color: '.get_option("_trackablesharebutton_textcolor").';">Social links powered by <a href="http://www.ecreativeim.com/trackable-social-share-icons" target="_blank" style="color:'.get_option("_trackablesharebutton_linkcolor").';">Ecreative Internet Marketing</a></div>';
 		echo $textColor;
 		}
 	}
