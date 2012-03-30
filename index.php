@@ -13,7 +13,7 @@
     if(!defined('WP_PLUGIN_DIR')) { die('This WordPress plugin is not supported by your system.'); }
 
 	// Define Version
-	define('TRACKABLESHARE_VERSION','1.2');
+	define('TRACKABLESHARE_VERSION','1.3');
 	define('TRACKABLESHARE_DIRNAME',basename(dirname(__FILE__)));
 	define('TRACKABLESHARE_PLUGINS',basename(WP_CONTENT_DIR).'/'.basename(WP_PLUGIN_DIR));
 

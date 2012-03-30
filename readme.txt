@@ -2,7 +2,7 @@
 Contributors: EcreativeIM, mikestowe
 Tags: social media, sharing, trackable, google analytics, facebook, twitter, social, social bookmarking, email, reddit, del.icio.us, digg, stats, statistics, share, sharing, tracking, analytics, snail mail, google plus, pinterest
 Requires at least: 2.9
-Tested up to: 3.2.1
+Tested up to: 3.3.1
 
 The Trackable Social Share Icons plugin enables blog readers to easily share posts via social media networks, including Facebook and Twitter. All share clicks are automatically tracked in your Google Analytics.
 
