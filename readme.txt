@@ -1,6 +1,6 @@
 ﻿=== Trackable Social Share Icons ===
 Contributors: EcreativeIM, mikestowe
-Tags: social media, sharing, trackable, google analytics, facebook, twitter, social, social bookmarking, email, reddit, del.icio.us, digg, stats, statistics, share, sharing, tracking, analytics, snail mail, google plus
+Tags: social media, sharing, trackable, google analytics, facebook, twitter, social, social bookmarking, email, reddit, del.icio.us, digg, stats, statistics, share, sharing, tracking, analytics, snail mail, google plus, pinterest
 Requires at least: 2.9
 Tested up to: 3.2.1
 
@@ -58,6 +58,13 @@ View our full FAQ at http://www.ecreativeim.com/trackable-social-share-icons-faq
 
 
 == Changelog ==
+
+= 1.3 =
+* Added Pinterest
+* Google+ is now either inline with the custom buttons, or below the buttons similar to the facebook section
+* Fixed the Tumblr share option
+* Cleaned up some unnecessary files
+* Reverted change of footer link behavior, it is now deactivated by default. Thanks for your support if you decide to turn it on!
 
 = 1.2 =
 * Added security fix regarding permissions

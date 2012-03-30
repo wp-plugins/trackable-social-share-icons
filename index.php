@@ -56,7 +56,7 @@
 		//add_option('_trackablesharebutton_bitlylogin', '');
 		//add_option('_trackablesharebutton_bitlykey', '');
 		add_option('_trackablesharebutton_header', '');
-		add_option('_trackablesharebutton_footer', '1');
+		add_option('_trackablesharebutton_footer', '0');
 		// Code Check Cache
 		add_option('_trackablesharebuttons_code_check',false);
 		add_option('_trackablesharebuttons_code_check_time','0');
@@ -171,6 +171,10 @@
 			return $content;
 		}
 
+		//Thanks to http://wordpress.org/extend/plugins/pinterest-pin-it-button/ for inspiration on how to grab the images from the post
+		$first_img = '';
+		$output = preg_match_all('/<img.+src=[\'"]([^\'"]+)[\'"].*>/i', $post->post_content, $matches);
+		$first_img = $matches [1] [0];
 
 		$urls = array(
 		'bookmark.png' => array('url'=>'javascript:alert(\'test\',\'test\')','popup'=>'false'), // not enabled yet
@@ -184,9 +188,10 @@
 		'reddit.png' => array('url'=>'http://www.reddit.com/login?dest=%2Fsubmit%3Furl=%url%&title=%url%', 'popup'=>'700x500'),
 		'snailmail.png' => array('url'=>'http://www.ecreativeim.com/snailmail.php','popup'=>'310x310'), // not enabled yet
 		'stumbleupon.png' => array('url'=>'http://www.stumbleupon.com/submit?url=%url%&title=%url%', 'popup'=>'750x450'),
-		'tumblr.png' => array('url'=>'http://www.tumblr.com/login?s=&t=%title%&u=%url%&v=3&o=0', 'popup'=>'500x400'),
+		'tumblr.png' => array('url'=>'http://www.tumblr.com/share/link?url=%url%&name=%title%&description=', 'popup'=>'500x400'),
 		'twitter.png' => array('url'=>'http://twitter.com/share?url=%url%&text=%title%', 'popup'=>'500x350'),
-		//'plusone.png' => array('url'=>'', 'popup'=>'550x350') --this is for someday (hopefully soon) when Google adds a URI based sharing system.
+		'pinterest.png' => array('url'=>'http://pinterest.com/pin/create/button/?url=%url%&media='.urlencode($first_img).'&description=%title%', 'popup'=>'600x350'),
+		'plusone.png' => array('url'=>'https://plusone.google.com/_/+1/confirm?hl=en&url=%url%&title=%title%', 'popup'=>'550x350')
 		);
 
 		$add_buttons = get_option('_trackablesharebutton_additionalbuttons');
@@ -426,7 +431,6 @@
 			update_option('_trackablesharebutton_textColor', $_POST['textColor']);
 			update_option('_trackablesharebutton_linkColor', $_POST['linkcolor']);
 		}
-
 		list($uploadpath,) = _trackableshare_setpaths('custom',true);
 		foreach($_FILES as $file) {
 			if(!empty($file['name']) && substr($file['name'],-3) == 'png') {
@@ -485,7 +489,7 @@
 		echo '<table width="100%">';
 		echo '<tr><td valign="top" colspan="2" width="150"><h3>Buttons:</h3><textarea style="width: 60%;" name="buttons">'.get_option('_trackablesharebuttons').'</textarea><br />(separate multiple buttons with a comma, ie: "facebook, twitter, stumble upon, digg, email")';
 
-		echo '<br /><strong style="color: #56959E">Options include: facebook, twitter, linked in, digg, delicious, reddit, stumble upon, tumblr, posterous, email, snail mail'.$add_buttons_text.'</strong></td></tr>';
+		echo '<br /><strong style="color: #56959E">Options include: facebook, twitter, pinterest, plusone, linked in, digg, delicious, reddit, stumble upon, tumblr, posterous, email, snail mail'.$add_buttons_text.'</strong></td></tr>';
 		echo '<tr><td colspan="2">&nbsp;</td></tr>';
 		
 		echo '<td colspan="2"><h3>Display Buttons On:';
@@ -522,7 +526,7 @@
 			echo '<input type="radio" name="type" value="custom" '.('custom' == get_option('_trackablesharebutton_type')?'checked':'').' /> &nbsp; ';
 			_trackableshare_showbuttons('custom');
 			echo '<br /><br /><strong>Upload Buttons:</strong> button should be named identical to the correlating tag and must be a .png<br />';
-			echo '<span style="color: #56959E">ie: facebook.png, twitter.png, linkedin.png, digg.png, stumbleupon.png, etc.</span><br /><br />';
+			echo '<span style="color: #56959E">ie: facebook.png, twitter.png, pinterest.png, linkedin.png, stumbleupon.png, etc.</span><br /><br />';
 			echo '<input type="file" name="upload1"> <input type="file" name="upload2"> <input type="file" name="upload3">';
 			echo '<br /><br /><br />';
 		}
@@ -633,4 +637,5 @@
 		}
 	}
 	// Developed by Michael Stowe, (updated by Zeb Anderson)
+
 ?>
